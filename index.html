@@ -264,7 +264,7 @@
       const segmentIndex = Math.floor(normalizedDeg / (360 / numSegments));
       const prize = prizes[(numSegments - 1 - segmentIndex + numSegments) % numSegments];
 
-      result.innerHTML = `🎉 You won:<br><strong>${prize.text}</strong><br>Code: <code>${prize.code}</code><br>We've sent the code to your email, and the company has been notified as well. If you don’t see it, be sure to check your inbox and spam folder.`;
+      result.innerHTML = `🎉 You won:<br><strong>${prize.text}</strong><br>Code: <code>${prize.code}</code><br><p style="font-family:Space Grotesk">We've sent the code to your email, and the company has been notified as well. If you don’t see it, be sure to check your inbox and spam folder.</p>`;
       localStorage.setItem('hasSpun', 'true');
 
       const user = JSON.parse(localStorage.getItem('wheelUser'));
