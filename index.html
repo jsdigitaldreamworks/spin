@@ -282,6 +282,7 @@
         business_email: "jsdigitaldreamworks@gmail.com",
         company_name: "JS Digital DreamWorks"
       };
+		console.log("Sending email to:", user.email, "with prize:", prize.text);
 
       emailjs.send("service_72b961n", "template_3k7ehvr", templateParams)
         .then(() => console.log("User Email sent!"))
