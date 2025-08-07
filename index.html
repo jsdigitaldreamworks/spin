@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spin the Wheel | JS Digital DreamWorks</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: cinzel, serif;
+      background: #f0f0f0; /* Light grey background */
+      margin: 0;
+      padding: 0px 0px;
+      color: #000;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    .form-wrapper {
+      background-color: white;
+      padding: 30px 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+	.form-wrapper-footer {
+		  background-color: white;
+		  padding: 30px 20px;
+		  max-width: 100%;
+		  margin: auto;
+		  border-radius: 10px;
+		  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+		}
+		.form-wrapper-header {
+	  background-color: white;
+	  padding: 30px 20px;
+	  max-width: 100%;
+	  margin: auto;
+	  border-radius: 10px;
+	  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+	}
+
+    #user-form {
+      margin-bottom: 40px;
+    }
+	 #header {
+		  margin-bottom: 40px;
+		} 
+	#footer {
+      margin-bottom: 40px;
+    }
+    #user-form input {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #user-form button {
+      width: 30%;
+      padding: 10px;
+      font-size: 1rem;
+      background: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .wheel-container {
+      position: relative;
+      display: none;
+      max-width: 90vw;
+      width: 600px;
+      height: auto;
+      margin: auto;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100%;
+      transition: transform 4s ease-out;
+      display: block;
+      margin: 0 auto;
+    }
+	#wheel {
+	  display: block;
+	  width: 100%;
+	  height: auto;
+	}
+    .arrow {
+      width: 0;
+      height: 0;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid transparent;
+      border-right: 30px solid black;
+      position: absolute;
+      top: 41.35%;
+      left: 95%;
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+
+    #spinBtn {
+      margin: 20px auto 0;
+      padding: 10px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: #4caf50;
+      color: white;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      min-height: 3rem;
+    }
+  </style>
+</head>
+<body>
+	<div class="form-wrapper-header" id="header"><header>
+	<h style="font-size:30px;font-family:Cinzel">JS Digital DreamWorks</h>
+	<p style="color:#616161;font-family:Space Grotesk">Spin to Win Exclusive Offers! 🎁</p>
+  
+</header></div>
+  <div class="form-wrapper" id="user-form">
+	<div class="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4"><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift w-8 h-8 text-white"><rect x="3" y="8" width="18" height="4" rx="1"></rect><path d="M12 8v13"></path><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path></svg></div>
+    <h style="font-size:30px;font-family:PanRoman">Enter to Win!</h>
+	<p style="color:#616161;font-family:Space Grotesk">Fill in your details to spin the wheel and claim your exclusive offer!</p>
+    <form id="form">
+      <input type="text" id="firstName" placeholder="First Name" required />
+      <input type="text" id="lastName" placeholder="Last Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <button type="submit">Submit & Spin</button>
+    </form>
+  </div>
+
+  <div class="wheel-container" id=wheel-section>
+    <div class="arrow"></div>
+    <canvas id="wheel"></canvas>
+    <button id="spinBtn">Spin</button>
+    <p id="result"></p>
+  </div>
+  <div class="form-wrapper-footer" id="footer">
+    <footer>
+    &copy; 2023 JS Digital DreamWorks. All rights reserved.<br>
+	 <a href="https://www.jsdigitaldreamworks.ca/privacy-policy" style="font-family:Space Grotesk">Privacy Policy</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 <a href="https://www.jsdigitaldreamworks.ca/terms-and-conditions" style="font-family:Space Grotesk">Terms and Conditions</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 <a href="https://www.jsdigitaldreamworks.ca/contact-us" style="font-family:Space Grotesk">Contact Us</a> 
+  </footer>
+  </div>
+
+  <script>
+    emailjs.init("jp6NMnw0T-NYE40fy");
+
+    const prizes = [
+      { text: "5% OFF Any Service", code: "WIN5NOW" },
+      { text: "10% OFF Your New Website", code: "10WEBBOOST" },
+      { text: "$75 OFF a Logo Design", code: "LOGO75OFF" },
+      { text: "Free Social Media Audit ($200 Value!)", code: "FREESOCIAL200" },
+      { text: "15% OFF a Full Branding Package", code: "BRAND15DEAL" },
+      { text: "Free Business Card Design", code: "FREECARD2025" },
+      { text: "$100 OFF E-Commerce Package", code: "ECOM100WIN" },
+      { text: "20% OFF Your Next Project", code: "MEGA20OFF" },
+      { text: "BONUS: Free 1-Year Hosting & Domain", code: "HOSTINGFREE1Y" },
+      { text: "Mystery Surprise", code: "MYSTERYREVEAL" }
+    ];
+
+    const colors = ['#f44336', '#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#3f51b5', '#009688', '#e91e63', '#ffc107', '#795548'];
+
+    const spinBtn = document.getElementById('spinBtn');
+    const result = document.getElementById('result');
+    const wheel = document.getElementById('wheel');
+    const arrow = document.querySelector('.arrow');
+    let currentAngle = 0;
+    let numSegments = prizes.length;
+
+    let canvasSize, ctx, center, radius, anglePerSegment;
+
+    function setupCanvas() {
+      const containerWidth = wheel.parentElement.clientWidth;
+      canvasSize = containerWidth;
+      wheel.width = canvasSize * window.devicePixelRatio;
+      wheel.height = canvasSize * window.devicePixelRatio;
+
+      wheel.style.width = containerWidth + 'px';
+      wheel.style.height = containerWidth + 'px';
+
+      ctx = wheel.getContext('2d');
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+      center = canvasSize / 2;
+      radius = center;
+      anglePerSegment = (2 * Math.PI) / numSegments;
+    }
+
+    function drawWheel() {
+      ctx.clearRect(0, 0, canvasSize, canvasSize);
+      for (let i = 0; i < numSegments; i++) {
+        const angle = i * anglePerSegment;
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, angle, angle + anglePerSegment);
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+        ctx.save();
+        ctx.translate(center, center);
+        ctx.rotate(angle + anglePerSegment / 2);
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#fff";
+        ctx.font = `${Math.max(12, radius * 0.06)}px sans-serif`;
+        const paddedRadius = radius * 0.6;
+        wrapText(ctx, prizes[i].text, paddedRadius, 0, radius * 0.8, radius * 0.08);
+        ctx.restore();
+      }
+    }
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = text.split(' ');
+      let line = '', lines = [];
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+          lines.push(line);
+          line = words[n] + ' ';
+        } else {
+          line = testLine;
+        }
+      }
+      lines.push(line);
+      for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + (i * lineHeight));
+      }
+    }
+
+    function spinWheel() {
+      if (localStorage.getItem('hasSpun')) {
+        alert("⛔ You've already spun the wheel!");
+        return;
+      }
+
+      const randomRotation = Math.floor(3600 + Math.random() * 360);
+      currentAngle = (currentAngle + randomRotation) % 360;
+      wheel.style.transition = 'transform 4s ease-out';
+      wheel.style.transform = `rotate(${randomRotation}deg)`;
+
+      setTimeout(() => {
+        let normalizedDeg = currentAngle % 360;
+        const segmentIndex = Math.floor(normalizedDeg / (360 / numSegments));
+        const prize = prizes[(numSegments - 1 - segmentIndex + numSegments) % numSegments];
+
+        result.innerHTML = `🎉 You won:<br><strong>${prize.text}</strong><br>Code: <code>${prize.code}</code><br>We've sent the code to your email, and the company has been notified as well. If you don’t see it, be sure to check your inbox and spam folder.`;
+        localStorage.setItem('hasSpun', 'true');
+
+        const user = JSON.parse(localStorage.getItem('wheelUser'));
+        sendEmail(user, prize);
+      }, 4000);
+    }
+
+    function sendEmail(user, prize) {
+      const templateParams = {
+        user_email: user.email,
+        user_name: user.firstName + ' ' + user.lastName,
+        first_name: user.firstName,
+        last_name: user.lastName,
+        prize_title: prize.text,
+        prize_code: prize.code,
+        business_email: "jsdigitaldreamworks@gmail.com",
+        company_name: "JS Digital DreamWorks"
+      };
+
+      emailjs.send("service_72b961n", "template_3k7ehvr", templateParams)
+        .then(() => console.log("User Email sent!"))
+        .catch(err => console.error("User Email error", err));
+
+      emailjs.send("service_72b961n", "template_hflosex", templateParams)
+        .then(() => console.log("Admin Email sent!"))
+        .catch(err => console.error("Admin Email error", err));
+    }
+
+    document.getElementById('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const user = {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim()
+      };
+
+      localStorage.setItem('wheelUser', JSON.stringify(user));
+      document.getElementById('user-form').style.display = 'none';
+      document.querySelector('.wheel-container').style.display = 'block';
+      init();
+    });
+
+    function init() {
+      setupCanvas();
+      drawWheel();
+    }
+
+    window.addEventListener('resize', init);
+    spinBtn.addEventListener('click', spinWheel);
+  </script>
+</body>
+</html>
