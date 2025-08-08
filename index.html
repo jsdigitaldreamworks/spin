@@ -28,14 +28,14 @@
       box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
 	.form-wrapper-footer {
-		  background-color: white;
-		  padding: 30px 20px;
-		  max-width: 100%;
-		  margin: auto;
-		  border-radius: 10px;
-		  box-shadow: 0 0 20px rgba(0,0,0,0.1);
-		}
-		.form-wrapper-header {
+	  background-color: white;
+	  padding: 30px 20px;
+	  max-width: 100%;
+	  margin: auto;
+	  border-radius: 10px;
+	  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+	}
+	.form-wrapper-header {
 	  background-color: white;
 	  padding: 30px 20px;
 	  max-width: 100%;
@@ -158,16 +158,16 @@
   };
 
   const prizes = [
-    { text: "5% OFF Any Service", code: "WIN5NOW" },
-    { text: "10% OFF Your New Website", code: "10WEBBOOST" },
-    { text: "$75 OFF a Logo Design", code: "LOGO75OFF" },
-    { text: "Free Social Media Audit ($200 Value!)", code: "FREESOCIAL200" },
-    { text: "15% OFF a Full Branding Package", code: "BRAND15DEAL" },
-    { text: "Free Business Card Design", code: "FREECARD2025" },
-    { text: "$100 OFF E-Commerce Package", code: "ECOM100WIN" },
-    { text: "20% OFF Your Next Project", code: "MEGA20OFF" },
-    { text: "BONUS: Free 1-Year Hosting & Domain", code: "HOSTINGFREE1Y" },
-    { text: "Mystery Surprise", code: "MYSTERYREVEAL" }
+    { text: "10% off Any Service", code: "AS10OFF" },
+    { text: "10% off Any Package", code: "AP10OFF" },
+    { text: "$50 off Logo Design", code: "LOGO50OFF" },
+    { text: "100% off Business Card Design", code: "FREEBSCARD" },
+    { text: "Try Again", code: "Try Again" },
+    { text: "$50 off Business Card Design", code: "BSCARD50OFF" },
+    { text: "15% off New Website", code: "NW15OFF" },
+    { text: "25% off Website Resigning", code: "WR25OFF" },
+    { text: "25% off 1 Year Hosting Plan", code: "HP25OFF" },
+    { text: "Try Again", code: "Try Again" }
   ];
 
   const colors = ['#f44336', '#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#3f51b5', '#009688', '#e91e63', '#ffc107', '#795548'];
@@ -256,8 +256,18 @@
       const segmentIndex = Math.floor(normalizedDeg / (360 / numSegments));
       const prize = prizes[(numSegments - 1 - segmentIndex + numSegments) % numSegments];
 
-      result.innerHTML = `🎉 You won:<br><strong>${prize.text}</strong><br>Code: <code>${prize.code}</code><br><p style="font-family:Space Grotesk">We've sent the code to your email, and the company has been notified as well. If you don’t see it, be sure to check your inbox and spam folder.</p>`;
-      localStorage.setItem('hasSpun', 'true');
+	 if (!prize.code || prize.text === "Try Again") {
+	  result.innerHTML = `😢 <strong>Try Again!</strong><br>
+		<p style="font-family:Space Grotesk">Unfortunately, no prize was won this time. <br>
+		Better luck on your next spin!</p>`;
+	} else {
+	  result.innerHTML = `🎉 You won:<br>
+		<strong>${prize.text}</strong><br>
+		Code: <code>${prize.code}</code><br>
+		<p style="font-family:Space Grotesk">We've sent the code to your email, and the company has been notified as well. If you don’t see it, be sure to check your inbox and spam folder.</p>`;
+	  localStorage.setItem('hasSpun', 'true');
+	}
+
 
       const user = JSON.parse(localStorage.getItem('wheelUser'));
       sendEmail(user, prize);
@@ -275,17 +285,22 @@
       business_email: "jsdigitaldreamworks@gmail.com",
       company_name: "JS Digital DreamWorks"
     };
-
+	if (!prize.code || prize.text === "Try Again") {
+	  // NO EMAIL SENT
+		result.innerHTML = `😢 <strong>Try Again!</strong><br>
+		Unfortunately, no prize was won this time. <br>
+		Better luck on your next spin!`;
+	} else {
     // Send user email
-    emailjs.send("service_72b961n", "template_3k7ehvr", templateParams)
-      .then(() => console.log("✅ User email sent successfully."))
-      .catch((error) => console.error("❌ Failed to send user email:", error));
+		emailjs.send("service_72b961n", "template_3k7ehvr", templateParams)
+		.then(() => console.log("✅ User email sent successfully."))
+		.catch((error) => console.error("❌ Failed to send user email:", error));
 
     // Send admin email
-    emailjs.send("service_72b961n", "template_hflosex", templateParams)
-      .then(() => console.log("✅ Admin email sent successfully."))
-      .catch((error) => console.error("❌ Failed to send admin email:", error));
-  }
+		emailjs.send("service_72b961n", "template_hflosex", templateParams)
+		.then(() => console.log("✅ Admin email sent successfully."))
+		.catch((error) => console.error("❌ Failed to send admin email:", error));
+  }}
 
   document.getElementById('form').addEventListener('submit', function (e) {
     e.preventDefault();
